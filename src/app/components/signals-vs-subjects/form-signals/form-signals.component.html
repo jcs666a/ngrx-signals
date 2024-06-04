@@ -1,0 +1,15 @@
+<h2 [ngClass]="{'over-9000': showOver9000}">
+    Power: <strong>{{counterSignalsService.count()}}</strong>
+    <span>Signals</span>
+</h2>
+<nav>
+    <button (click)="counterSignalsService.increment()">Increment</button>
+    <button (click)="counterSignalsService.decrease()">Decrease</button>
+    <button (click)="counterSignalsService.double()">Power * 2</button>
+    <button (click)="counterSignalsService.triple()">Power * 3</button>
+    <button (click)="counterSignalsService.reset()">Reset</button>
+</nav>
+
+@if (showOver9000) {
+    <h3>It's over 9000!!!</h3>
+}

@@ -1,0 +1,30 @@
+::ng-deep body,
+::ng-deep html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+::ng-deep body {
+    padding: 15px;
+
+    nav {
+        display: flex;
+        gap: 10px;
+        a {
+            display: block;
+            border-radius: 15px;
+            text-decoration: none;
+            border: 0;
+            background-color: #474292;
+            color: #fff;
+            padding: 5px 20px;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px #eaeaea;
+        }
+    }
+}

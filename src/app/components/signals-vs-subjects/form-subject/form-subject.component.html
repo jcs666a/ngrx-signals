@@ -1,0 +1,15 @@
+<h2 [ngClass]="{'over-9000': showOver9000}">
+    Power: <strong>{{counterSubjectService.count | async}}</strong>
+    <span>BehaviorSubject/Observables</span>
+</h2>
+<nav>
+    <button (click)="counterSubjectService.increment()">Increment</button>
+    <button (click)="counterSubjectService.decrease()">Decrease</button>
+    <button (click)="counterSubjectService.double()">Power * 2</button>
+    <button (click)="counterSubjectService.triple()">Power * 3</button>
+    <button (click)="counterSubjectService.reset()">Reset</button>
+</nav>
+
+@if (showOver9000) {
+    <h3>It's over 9000!!!</h3>
+}

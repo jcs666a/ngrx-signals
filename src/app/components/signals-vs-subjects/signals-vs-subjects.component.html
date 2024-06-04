@@ -1,0 +1,16 @@
+<h1>Signals vs NgRx</h1>
+<div class="columns">
+    <div class="columns__left">
+        <div class="columns__form">
+            <app-form-subject (vegetaImage)="subjectVegetaImage=$event" />
+        </div>
+        <app-card-image [vegeta]="subjectVegetaImage" />
+    </div>
+
+    <div class="columns__right">
+        <div class="columns__form">
+            <app-form-signals />
+        </div>
+        <app-card-image [vegeta]="signalVegetaImage$ | async" />
+    </div>
+</div>
