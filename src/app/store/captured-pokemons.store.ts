@@ -79,7 +79,13 @@ export const PokemonsStore = signalStore(
     withState(InitialState),
     withComputed(({ captured, abilities }) => ({
         totalCaptured: computed(() => captured().length),
-        totalAbilities: computed(() => abilities().length)
+        totalAbilities: computed(() => abilities().length),
+        sortedByName: computed((): Pokemon[] => JSON.parse(JSON.stringify(captured()))
+            .sort((a: Pokemon, b: Pokemon) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))),
+        sortedByHeight: computed((): Pokemon[] => JSON.parse(JSON.stringify(captured()))
+            .sort((a: Pokemon, b: Pokemon) => a.height - b.height)),
+        sortedByWeight: computed((): Pokemon[] => JSON.parse(JSON.stringify(captured()))
+            .sort((a: Pokemon, b: Pokemon) => a.weight - b.weight))
     })),
     withMethods((
         store,
@@ -102,6 +108,8 @@ export const PokemonsStore = signalStore(
                         ? combineLatest(abilities$).pipe(
                             tapResponse({
                                 next: (abilities) => {
+                                    abilities.forEach(ability =>
+                                        ability.effect_entries = ability.effect_entries.filter((effect) => effect.language.name === 'en'));
                                     patchState(
                                         store,
                                         {

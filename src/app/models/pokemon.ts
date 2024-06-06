@@ -205,6 +205,7 @@ export interface Pokemon {
     forms: Form[];
     game_indices: GameIndex[];
     height: number;
+    weight: number;
     held_items: HeldItem[];
     id: number;
     is_default: boolean;
@@ -226,6 +227,7 @@ export const defaultPokemon: Pokemon = {
   forms: [],
   game_indices: [],
   height: 0,
+  weight: 0,
   held_items: [],
   id: 0,
   is_default: false,

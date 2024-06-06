@@ -18,20 +18,14 @@ export class CapturedPageComponent {
     count: this.pokemonsStore.totalCaptured(),
     next: null,
     previous: null,
-    results: this.pokemonsStore.captured().map((pokemon) => ({
-      name: pokemon.name,
-      url: `https://pokeapi.co/api/v2/pokemon/${pokemon.id}`,
-      image: pokemon.sprites.other['official-artwork'].front_default,
-      audio: pokemon.cries.latest,
-      fullData: pokemon
-    }))
+    results: this.getResutsPage(this.pokemonsStore.sortedByName())
   });
 
   pokemonPage$ = this.page$.asObservable();
 
   constructor(private router: Router) {
     effect(() => {
-      this.updatePage(this.pokemonsStore.captured());
+      this.updatePage(this.pokemonsStore.sortedByName());
     })
   }
 
@@ -39,14 +33,18 @@ export class CapturedPageComponent {
     this.page$.next({
       ...this.page$.getValue(),
       count: captured.length,
-      results: captured.map((pokemon) => ({
-        name: pokemon.name,
-        url: `https://pokeapi.co/api/v2/pokemon/${pokemon.id}`,
-        image: pokemon.sprites.other['official-artwork'].front_default,
-        audio: pokemon.cries.latest,
-        fullData: pokemon
-      }))
+      results: this.getResutsPage(captured)
     });
+  }
+
+  getResutsPage(captured: Pokemon[]) {
+    return captured.map((pokemon) => ({
+      name: pokemon.name,
+      url: `https://pokeapi.co/api/v2/pokemon/${pokemon.id}`,
+      image: pokemon.sprites.other['official-artwork'].front_default,
+      audio: pokemon.cries.latest,
+      fullData: pokemon
+    }));
   }
 
   openPage(url: string): void {
@@ -58,7 +56,7 @@ export class CapturedPageComponent {
   }
 
   searchPokemon(name: string): void {
-    this.updatePage(this.pokemonsStore.captured()
+    this.updatePage(this.pokemonsStore.sortedByName()
       .filter((pokemon) => pokemon.name === name || !name));
   }
 
