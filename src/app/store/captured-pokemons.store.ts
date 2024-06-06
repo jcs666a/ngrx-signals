@@ -12,7 +12,6 @@ interface CapturedPokemonsState {
     capturedKeys: string[];
     abilities: Ability[];
     abilitiesKeys: string[];
-    searchPokemonString: string;
     error: any,
     state: 'Loading' | 'Loaded' | 'Error'
 };
@@ -69,7 +68,6 @@ const InitialState: CapturedPokemonsState = {
     capturedKeys: localCapturedKeys() || [],
     abilities: localAbilities() || [],
     abilitiesKeys: localAbilitiesKeys() || [],
-    searchPokemonString: '',
     error: {},
     state: 'Loaded'
 };
