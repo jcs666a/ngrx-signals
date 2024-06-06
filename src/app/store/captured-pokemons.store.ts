@@ -6,8 +6,9 @@ import { combineLatest, of, pipe, switchMap, tap } from "rxjs";
 import { Pokemon } from "../models/pokemon";
 import { Ability } from "../models/ability";
 import { PokeapiService } from "../services/pokeapi.service";
+import { withLogger } from "./captured-pokemons.logger";
 
-interface CapturedPokemonsState {
+export interface CapturedPokemonsState {
     captured: Pokemon[],
     capturedKeys: string[];
     abilities: Ability[];
@@ -15,21 +16,6 @@ interface CapturedPokemonsState {
     error: any,
     state: 'Loading' | 'Loaded' | 'Error'
 };
-
-const saveToLocalStorage = (captured: Pokemon[], abilities?: Ability[]): void => {
-    localStorage.setItem('rs_captured', JSON.stringify(captured));
-    localStorage.setItem(
-        'rs_captured_keys',
-        JSON.stringify(captured.map((pokemon) => pokemon.name))
-    );
-    if (abilities) {
-        localStorage.setItem('rs_abilities', JSON.stringify(abilities));
-        localStorage.setItem(
-            'rs_abilities_keys',
-            JSON.stringify(abilities.map((ability) => ability.name))
-        );
-    }
-}
 
 const localCaptured = (): Pokemon[] | null => {
     const captured = localStorage.getItem('rs_captured');
@@ -118,7 +104,6 @@ export const PokemonsStore = signalStore(
                                             captured: [...store.captured(), pokemon]
                                         }
                                     );
-                                    saveToLocalStorage(store.captured(), store.abilities());
                                 },
                                 error: (error) => patchState(store, { error, state: 'Error' })
                             })
@@ -129,7 +114,6 @@ export const PokemonsStore = signalStore(
                                 captured: [...store.captured(), pokemon],
                                 capturedKeys: [...store.capturedKeys(), pokemon.name]
                             });
-                            saveToLocalStorage(store.captured());
                         }));
                 })
             )
@@ -141,7 +125,7 @@ export const PokemonsStore = signalStore(
                 captured: captured,
                 capturedKeys: captured.map((pk) => pk.name)
             });
-            saveToLocalStorage(store.captured());
         },
-    }))
+    })),
+    withLogger()
 );
