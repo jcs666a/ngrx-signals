@@ -1,0 +1,22 @@
+:host {
+    h2 {
+        text-align: center;
+    }
+
+    nav {
+        a {
+            background: none;
+            border: 0;
+            border-radius: 0;
+            padding: 0;
+            display: inline;
+            box-shadow: none;
+            color: #474292;
+            &:hover,
+            &:focus,
+            &:active {
+                text-decoration: underline;
+            }
+        }
+    }
+}

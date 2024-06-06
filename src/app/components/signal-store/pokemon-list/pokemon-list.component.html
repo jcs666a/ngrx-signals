@@ -1,0 +1,47 @@
+<app-nav [title]="title" />
+<table>
+    @if (pokemonPage$ | async; as pokemonPage) {
+        <thead>
+            <tr>
+                <td colspan="4">
+                    <app-search-and-action-buttons
+                        [nextPage]="pokemonPage.next"
+                        [prevPage]="pokemonPage.previous"
+                        [hideNavButtons]="hideNavButtons"
+                        [isLoading]="pokemonPage.isLoading"
+                        (openPage)="openPage.emit($event)"
+                        (searchPokemon)="searchPokemon.emit($event)"
+                    />
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (pokemonPage.isLoading) {
+                <tr class="loading-row">
+                    <td colspan="4">...Loading Pokemons</td>
+                </tr>
+            } @else if (!pokemonPage.count) {
+                <tr class="loading-row">
+                    <td colspan="4">No Pokemons found</td>
+                </tr>
+            } @else {
+                @for (pokemon of pokemonPage.results; track pokemon) {
+                    <tr>
+                        <td>{{pokemon.name}}</td>
+                        <td><img [src]="pokemon.image" [alt]="pokemon.name"></td>
+                        <td>
+                            <audio controls>
+                                <source [src]="pokemon.audio" type="audio/ogg">
+                            </audio>
+                        </td>
+                        <td>
+                            <button (click)="remove(pokemon.fullData)">Remove</button>
+                            <button (click)="capture(pokemon.fullData)">Capture</button>
+                            <button (click)="openDetails.emit(pokemon.name)">Open</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    }
+</table>

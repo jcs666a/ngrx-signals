@@ -1,0 +1,8 @@
+<app-pokemon-list
+    title="Captured pokemons"
+    [hideNavButtons]="true"
+    [pokemonPage$]="pokemonPage$"
+    (openPage)="openPage($event)"
+    (searchPokemon)="searchPokemon($event)"
+    (openDetails)="openDetails($event)"
+/>

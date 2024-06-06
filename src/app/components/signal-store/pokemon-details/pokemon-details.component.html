@@ -1,0 +1,68 @@
+<app-nav title="Pokeapi" />
+@if (pokemon$ | async; as pokemon) {
+    @if (pokemon.error) {
+        <h1>Pokemon was not found</h1>
+    } @else {
+        <h1>
+            {{pokemon.name}}
+            <span>
+                Experience: {{pokemon.base_experience}}<br>
+                Height: {{pokemon.height}}
+            </span>
+        </h1>
+        <div class="header">
+            @if (pokemonsStore.capturedKeys().includes(pokemon.name)) {
+                <button
+                    [title]="'Free ' + pokemon.name"
+                    (click)="remove(pokemon)"
+                ><img src="/assets/images/pokeball-open.png" alt="Pokeball"></button>
+            } @else {
+                <button
+                    [title]="'Capture ' + pokemon.name"
+                    (click)="capture(pokemon)"
+                ><img src="/assets/images/pokeball.png" alt="Pokeball"></button>
+            }
+            <img
+                [src]="pokemon.sprites.other.dream_world.front_default || pokemon.sprites.other['official-artwork'].front_default"
+                [alt]="pokemon.name"
+            >
+            @if (pokemon.cries.latest) {
+                <audio controls>
+                    <source [src]="pokemon.cries.latest" type="audio/ogg">
+                </audio>
+            }
+        </div>
+        <div class="content">
+            <div>
+                <h2>Abilities</h2>
+                <ul>
+                    @for (ability of pokemon.abilities; track ability;) {
+                        <li>{{ability.ability.name}}</li>
+                    }
+                </ul>
+            </div>
+            <div>
+                <h2>Moves</h2>
+                <ul>
+                    @for (move of pokemon.moves; track move;) {
+                        <li>{{move.move.name}}</li>
+                    }
+                </ul>
+            </div>
+            @if(abilitiesEffects$ | async; as effects) {
+                @if(effects.length) {
+                    <div>
+                        <h2>Abilities effects</h2>
+                        <ul>
+                            @for (effect of effects; track effect;) {
+                                <li>{{effect}}</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            }
+        </div>
+    }
+} @else {
+    <h1>Retrieving pokemon info</h1>
+}

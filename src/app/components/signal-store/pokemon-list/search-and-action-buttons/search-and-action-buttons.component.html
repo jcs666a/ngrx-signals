@@ -1,0 +1,22 @@
+<div>
+    @if (!hideNavButtons) {
+        <button
+            (click)="openPage.emit(prevPage || '')"
+            [disabled]="!prevPage || isLoading"
+        >Prev</button>
+    }
+    <input
+        type="text"
+        placeholder="Search for a Pokemon"
+        [disabled]="isLoading || false"
+        [readonly]="isLoading || false"
+        [(ngModel)]="searchString"
+        (keydown.enter)="searchPokemon.emit(searchString)"
+    >
+    @if (!hideNavButtons) {
+        <button
+            (click)="openPage.emit(nextPage || '')"
+            [disabled]="!nextPage || isLoading"
+        >Next</button>
+    }
+</div>
