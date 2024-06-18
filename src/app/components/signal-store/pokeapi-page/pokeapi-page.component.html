@@ -1,6 +1,6 @@
 <app-pokemon-list
     title="Pokeapi list"
-    [pokemonPage$]="pokemonPage$"
+    [pokemonPage]="pokemonPage$ | async"
     (openPage)="openPage($event)"
     (searchPokemon)="searchPokemon($event)"
     (openDetails)="openDetails($event)"

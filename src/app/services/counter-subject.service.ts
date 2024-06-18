@@ -7,7 +7,7 @@ import { BehaviorSubject, map } from 'rxjs';
 })
 export class CounterSubjectService {
   private count$ = new BehaviorSubject(1000);
-  private over9000$ = this.count$.pipe(map((count) => count > 9000));
+  over9000$ = this.count$.pipe(map((count) => count > 9000));
 
   get count() {
     return this.count$.asObservable();
@@ -21,9 +21,6 @@ export class CounterSubjectService {
         : '/assets/images/vegeta.webp'
       )
     );
-  }
-  get over9000() {
-    return this.over9000$;
   }
 
   increment() {

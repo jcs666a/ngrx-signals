@@ -64,12 +64,22 @@ export const PokemonsStore = signalStore(
     withComputed(({ captured, abilities }) => ({
         totalCaptured: computed(() => captured().length),
         totalAbilities: computed(() => abilities().length),
-        sortedByName: computed((): Pokemon[] => JSON.parse(JSON.stringify(captured()))
-            .sort((a: Pokemon, b: Pokemon) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))),
-        sortedByHeight: computed((): Pokemon[] => JSON.parse(JSON.stringify(captured()))
-            .sort((a: Pokemon, b: Pokemon) => a.height - b.height)),
-        sortedByWeight: computed((): Pokemon[] => JSON.parse(JSON.stringify(captured()))
-            .sort((a: Pokemon, b: Pokemon) => a.weight - b.weight))
+        capturedPage: computed(() => {
+            const sortedPokemons = JSON.parse(JSON.stringify(captured()))
+                .sort((a: Pokemon, b: Pokemon) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+            return {
+                count: sortedPokemons.length,
+                next: null,
+                previous: null,
+                results: sortedPokemons.map((pokemon: Pokemon) => ({
+                    name: pokemon.name,
+                    url: `https://pokeapi.co/api/v2/pokemon/${pokemon.id}`,
+                    image: pokemon.sprites.other['official-artwork'].front_default,
+                    audio: pokemon.cries.latest,
+                    fullData: pokemon
+                }))
+            };
+        })
     })),
     withMethods((
         store,

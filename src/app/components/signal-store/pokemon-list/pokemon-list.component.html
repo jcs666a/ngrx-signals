@@ -1,6 +1,6 @@
 <app-nav [title]="title" />
 <table>
-    @if (pokemonPage$ | async; as pokemonPage) {
+    @if (pokemonPage) {
         <thead>
             <tr>
                 <td colspan="4">
@@ -25,7 +25,7 @@
                     <td colspan="4">No Pokemons found</td>
                 </tr>
             } @else {
-                @for (pokemon of pokemonPage.results; track pokemon) {
+                @for (pokemon of pokemonPage.results; track pokemon.name) {
                     <tr>
                         <td>{{pokemon.name}}</td>
                         <td><img [src]="pokemon.image" [alt]="pokemon.name"></td>
@@ -35,8 +35,11 @@
                             </audio>
                         </td>
                         <td>
-                            <button (click)="remove(pokemon.fullData)">Remove</button>
-                            <button (click)="capture(pokemon.fullData)">Capture</button>
+                            @if (pokemonsStore.capturedKeys().includes(pokemon.name)) {
+                                <button (click)="remove(pokemon.fullData)">Remove</button>
+                            } @else {
+                                <button (click)="capture(pokemon.fullData)">Capture</button>
+                            }
                             <button (click)="openDetails.emit(pokemon.name)">Open</button>
                         </td>
                     </tr>

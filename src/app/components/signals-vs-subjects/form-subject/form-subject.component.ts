@@ -23,7 +23,7 @@ export class FormSubjectComponent {
       tap((vegetaImage) => this.vegetaImage.emit(vegetaImage))
     ).subscribe();
 
-    this.counterSubjectService.over9000.pipe(
+    this.counterSubjectService.over9000$.pipe(
       takeUntilDestroyed(),
       tap((over9000) => {
         console.log(

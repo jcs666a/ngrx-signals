@@ -19,7 +19,7 @@ export class PokemonListComponent {
 
   @Input() title!: string;
   @Input() hideNavButtons?: boolean;
-  @Input() pokemonPage$!: Observable<PokemonPage>;
+  @Input() pokemonPage!: PokemonPage | null;
   @Output() openPage = new EventEmitter<string>();
   @Output() searchPokemon = new EventEmitter<string>();
   @Output() openDetails = new EventEmitter<string>();
